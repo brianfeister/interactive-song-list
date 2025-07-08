@@ -37,6 +37,8 @@ jobs:
 
     - name: Build
       run: npm run build
+      env:
+        VITE_GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
 
     - name: Setup Pages
       uses: actions/configure-pages@v4

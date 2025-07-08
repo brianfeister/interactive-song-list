@@ -4,7 +4,7 @@
 
 import { getAccessToken, isGapiReady } from './googleAuth';
 
-const GOOGLE_SHEETS_API_KEY = 'AIzaSyArXmgyR9xzpjfA9YATTEJLy8cPatRtw9g'; // For read operations only
+const GOOGLE_SHEETS_API_KEY = import.meta.env.VITE_GOOGLE_DRIVE_API_KEY; // For read operations only
 const SPREADSHEET_ID = '1lU3pCXLU1STTZVweOLVsgI8OjFZ1bkgn6CDCZIgi9CY';
 const SHEET_NAME = 'Playlist'; // Name of the sheet tab
 

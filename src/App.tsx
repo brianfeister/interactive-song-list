@@ -10,7 +10,7 @@ import { isGapiReady } from './services/googleAuth';
 import GoogleSignIn from './components/GoogleSignIn';
 
 // Google Drive API configuration
-const GOOGLE_DRIVE_API_KEY = 'AIzaSyAebmwoQxwP6HJs66n7DVbz1Cy6mgmZ7uE';
+const GOOGLE_DRIVE_API_KEY = import.meta.env.VITE_GOOGLE_DRIVE_API_KEY;
 const FOLDER_ID = '1FkV3S3E62-kBe_pKmm6B8XA7YnG9oj2t';
 
 // Rate limiting configuration
