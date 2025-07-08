@@ -53,7 +53,7 @@ export const getPlaylistData = async (): Promise<PlaylistItem[]> => {
       songId: row[0] || '',
       selected: row[1] === 'TRUE' || row[1] === 'true' || row[1] === '1',
       order: index
-    })).filter(item => item.songId); // Filter out empty rows
+    })).filter((item: PlaylistItem) => item.songId); // Filter out empty rows
 
   } catch (error) {
     console.error('Error fetching playlist data:', error);

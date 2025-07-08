@@ -4,8 +4,7 @@ import {
   getPlaylistData,
   toggleSongSelection,
   reorderPlaylist,
-  initializePlaylistSheet,
-  type PlaylistItem
+  initializePlaylistSheet
 } from './services/googleSheets';
 import { isGapiReady } from './services/googleAuth';
 import GoogleSignIn from './components/GoogleSignIn';
@@ -107,7 +106,6 @@ const createSongFromFile = (file: DriveFile): Song => {
 
 const App: React.FC = () => {
   const [songs, setSongs] = useState<Song[]>([]);
-  const [playlistData, setPlaylistData] = useState<PlaylistItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [loadingContent, setLoadingContent] = useState(new Set<string>());
@@ -172,7 +170,6 @@ const App: React.FC = () => {
 
       try {
         const playlist = await getPlaylistData();
-        setPlaylistData(playlist);
         setLastUpdated(new Date());
 
         // Update songs with playlist information
@@ -310,7 +307,6 @@ const App: React.FC = () => {
     setIsUpdating(true);
     try {
       const playlist = await getPlaylistData();
-      setPlaylistData(playlist);
       setLastUpdated(new Date());
 
       // Update songs with playlist information

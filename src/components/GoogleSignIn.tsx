@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { LogIn, LogOut, User, AlertCircle } from 'lucide-react';
+import { LogOut, User, AlertCircle } from 'lucide-react';
 import {
   initializeGapi,
-  signIn,
   signOut,
   getCurrentUser,
   isSignedIn,
@@ -80,22 +79,6 @@ const GoogleSignIn: React.FC<GoogleSignInProps> = ({ onAuthStateChange }) => {
       renderSignInButton(buttonRef.current);
     }
   }, [authState.isSignedIn, authState.isLoading]);
-
-  const handleSignIn = async () => {
-    setAuthState(prev => ({ ...prev, isLoading: true, error: null }));
-
-    try {
-      await signIn();
-      // Auth state will be updated by the listener
-    } catch (error) {
-      console.error('Sign in failed:', error);
-      setAuthState(prev => ({
-        ...prev,
-        isLoading: false,
-        error: 'Sign in failed. Please try again.'
-      }));
-    }
-  };
 
   const handleSignOut = async () => {
     setAuthState(prev => ({ ...prev, isLoading: true, error: null }));
