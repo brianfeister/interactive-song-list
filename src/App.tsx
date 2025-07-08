@@ -13,6 +13,12 @@ import GoogleSignIn from './components/GoogleSignIn';
 const GOOGLE_DRIVE_API_KEY = import.meta.env.VITE_GOOGLE_DRIVE_API_KEY;
 const FOLDER_ID = '1FkV3S3E62-kBe_pKmm6B8XA7YnG9oj2t';
 
+// Check if API key is configured
+if (!GOOGLE_DRIVE_API_KEY) {
+  console.error('VITE_GOOGLE_DRIVE_API_KEY environment variable is not set');
+  console.error('Available environment variables:', Object.keys(import.meta.env));
+}
+
 // Rate limiting configuration
 const RATE_LIMIT_DELAY = 1000;
 let lastRequestTime = 0;
@@ -50,6 +56,10 @@ const rateLimitedFetch = async (url: string): Promise<Response> => {
 
 // Google Drive API functions
 const fetchFolderContents = async (): Promise<DriveFile[]> => {
+  if (!GOOGLE_DRIVE_API_KEY) {
+    throw new Error('Google Drive API key is not configured. Please set VITE_GOOGLE_DRIVE_API_KEY environment variable.');
+  }
+
   try {
     const response = await rateLimitedFetch(
       `https://www.googleapis.com/drive/v3/files?q='${FOLDER_ID}'+in+parents&key=${GOOGLE_DRIVE_API_KEY}&fields=files(id,name,mimeType,webViewLink)`
@@ -71,6 +81,10 @@ const fetchFolderContents = async (): Promise<DriveFile[]> => {
 };
 
 const fetchDocumentContent = async (fileId: string): Promise<string> => {
+  if (!GOOGLE_DRIVE_API_KEY) {
+    return 'Error: Google Drive API key is not configured. Please set VITE_GOOGLE_DRIVE_API_KEY environment variable.';
+  }
+
   try {
     const response = await rateLimitedFetch(
       `https://www.googleapis.com/drive/v3/files/${fileId}/export?mimeType=text/plain&key=${GOOGLE_DRIVE_API_KEY}`
@@ -137,7 +151,7 @@ const App: React.FC = () => {
         const files = await fetchFolderContents();
 
         if (files.length === 0) {
-          setError('No files found in the folder or API key not configured');
+          setError(`No files found in the folder or API key not configured. API Key status: ${GOOGLE_DRIVE_API_KEY ? 'SET' : 'NOT SET'}`);
           setLoading(false);
           return;
         }
