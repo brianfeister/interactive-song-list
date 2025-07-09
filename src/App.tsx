@@ -118,6 +118,11 @@ const createSongFromFile = (file: DriveFile): Song => {
   };
 };
 
+// Helper function to create Google Docs edit URL
+const createGoogleDocsEditURL = (fileId: string): string => {
+  return `https://docs.google.com/document/d/${fileId}/edit?tab=t.0`;
+};
+
 const App: React.FC = () => {
   const [songs, setSongs] = useState<Song[]>([]);
   const [loading, setLoading] = useState(true);
@@ -505,7 +510,14 @@ const App: React.FC = () => {
                         </button>
                       </div>
                       <GripVertical className="w-5 h-5 text-gray-400" />
-                      <h3 className="text-lg font-semibold text-gray-800">{song.title}</h3>
+                      <a
+                        href={createGoogleDocsEditURL(song.driveFileId)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-lg font-semibold text-blue-600 hover:text-blue-800 hover:underline"
+                      >
+                        {song.title}
+                      </a>
                     </div>
                     <label className={`flex items-center gap-2 ${isAuthenticated ? 'cursor-pointer' : 'cursor-not-allowed'}`}>
                       <input
@@ -538,10 +550,17 @@ const App: React.FC = () => {
             {unselectedSongs.map((song) => (
               <div key={song.id} className="bg-white border rounded-lg p-4 shadow-sm">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <ExternalLink className="w-4 h-4 text-gray-400" />
-                    <h3 className="text-lg font-medium text-gray-800">{song.title}</h3>
-                  </div>
+                                  <div className="flex items-center gap-3">
+                  <ExternalLink className="w-4 h-4 text-gray-400" />
+                  <a
+                    href={createGoogleDocsEditURL(song.driveFileId)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-lg font-medium text-blue-600 hover:text-blue-800 hover:underline"
+                  >
+                    {song.title}
+                  </a>
+                </div>
                   <label className={`flex items-center gap-2 ${isAuthenticated ? 'cursor-pointer' : 'cursor-not-allowed'}`}>
                     <input
                       type="checkbox"
@@ -556,7 +575,7 @@ const App: React.FC = () => {
                   </label>
                 </div>
                 <p className="text-gray-500 text-sm mt-1">
-                  Click the checkbox to add to today's playlist and view full content
+                  Click the song title to view the Google Doc, or check the box to add to today's playlist
                 </p>
               </div>
             ))}
